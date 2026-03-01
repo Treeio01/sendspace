@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\File\Pages;
 
-use App\MoonShine\Resources\File\FileResource;
+use App\Helpers\FormatHelper;
+use App\Models\File;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
@@ -17,14 +18,7 @@ use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Preview;
 use MoonShine\UI\Fields\Text;
-use MoonShine\UI\Fields\Url;
-use App\Models\File;
-use MoonShine\Support\Enums\SortDirection;
-use Throwable;
 
-/**
- * @extends IndexPage<FileResource>
- */
 class FileIndexPage extends IndexPage
 {
     protected bool $isLazy = true;
@@ -36,25 +30,12 @@ class FileIndexPage extends IndexPage
     {
         return [
             ID::make()->sortable(),
-
-            Text::make('File Name', 'original_name')
-                ->sortable(),
-
+            Text::make('File Name', 'original_name')->sortable(),
             Preview::make('Size', 'size', fn($item) => $item->formatted_size),
-
-            Text::make('Extension', 'extension')
-                ->sortable()
-                ->badge('purple'),
-
-            Text::make('Uploader IP', 'uploader_ip')
-                ->sortable(),
-
-            Number::make('Downloads', 'download_count')
-                ->sortable(),
-
-            Date::make('Uploaded At', 'created_at')
-                ->format('d.m.Y H:i')
-                ->sortable(),
+            Text::make('Extension', 'extension')->sortable()->badge('purple'),
+            Text::make('Uploader IP', 'uploader_ip')->sortable(),
+            Number::make('Downloads', 'download_count')->sortable(),
+            Date::make('Uploaded At', 'created_at')->format('d.m.Y H:i')->sortable(),
         ];
     }
 
@@ -63,20 +44,14 @@ class FileIndexPage extends IndexPage
         $buttons = parent::buttons();
 
         $buttons->add(
-            ActionButton::make(
-                'Download',
-                fn($file) => route('admin.file.download', $file->getKey())
-            )
+            ActionButton::make('Download', fn($file) => route('admin.file.download', $file->getKey()))
                 ->icon('arrow-down-tray')
                 ->blank()
                 ->showInLine()
         );
 
         $buttons->add(
-            ActionButton::make(
-                'Public Link',
-                fn($file) => route('file.show', $file->download_token)
-            )
+            ActionButton::make('Public Link', fn($file) => route('file.show', $file->download_token))
                 ->icon('link')
                 ->blank()
                 ->showInLine()
@@ -117,66 +92,10 @@ class FileIndexPage extends IndexPage
     protected function metrics(): array
     {
         return [
-            ValueMetric::make('Total Files')
-                ->value(File::count()),
-
-            ValueMetric::make('Total Size')
-                ->value($this->formatBytes(File::sum('size'))),
-
-            ValueMetric::make('Downloads Today')
-                ->value(
-                    File::whereDate('updated_at', today())
-                        ->sum('download_count')
-                ),
-
-            ValueMetric::make('Uploads Today')
-                ->value(File::whereDate('created_at', today())->count()),
-        ];
-    }
-
-    private function formatBytes(int|float|string|null $bytes): string
-    {
-        $bytes = (float) $bytes;
-        if ($bytes == 0) return '0 B';
-        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
-        $i = 0;
-        while ($bytes >= 1024 && $i < count($units) - 1) {
-            $bytes /= 1024;
-            $i++;
-        }
-        return round($bytes, 2) . ' ' . $units[$i];
-    }
-
-    /**
-     * @return list<ComponentContract>
-     * @throws Throwable
-     */
-    protected function topLayer(): array
-    {
-        return [
-            ...parent::topLayer()
-        ];
-    }
-
-    /**
-     * @return list<ComponentContract>
-     * @throws Throwable
-     */
-    protected function mainLayer(): array
-    {
-        return [
-            ...parent::mainLayer()
-        ];
-    }
-
-    /**
-     * @return list<ComponentContract>
-     * @throws Throwable
-     */
-    protected function bottomLayer(): array
-    {
-        return [
-            ...parent::bottomLayer()
+            ValueMetric::make('Total Files')->value(File::count()),
+            ValueMetric::make('Total Size')->value(FormatHelper::bytes(File::sum('size'))),
+            ValueMetric::make('Downloads Today')->value(File::whereDate('updated_at', today())->sum('download_count')),
+            ValueMetric::make('Uploads Today')->value(File::whereDate('created_at', today())->count()),
         ];
     }
 }

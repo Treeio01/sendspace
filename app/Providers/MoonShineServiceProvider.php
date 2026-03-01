@@ -9,6 +9,7 @@ use MoonShine\Contracts\Core\DependencyInjection\CoreContract;
 use MoonShine\Laravel\DependencyInjection\MoonShine;
 use MoonShine\Laravel\DependencyInjection\MoonShineConfigurator;
 use App\MoonShine\Resources\File\FileResource;
+use App\MoonShine\Resources\Download\DownloadResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -20,6 +21,7 @@ class MoonShineServiceProvider extends ServiceProvider
         $core
             ->resources([
                 FileResource::class,
+                DownloadResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),

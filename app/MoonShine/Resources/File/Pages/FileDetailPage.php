@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\File\Pages;
 
-use App\MoonShine\Resources\File\FileResource;
-use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\Pages\Crud\DetailPage;
 use MoonShine\Support\ListOf;
@@ -16,11 +14,7 @@ use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Preview;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
-use Throwable;
 
-/**
- * @extends DetailPage<FileResource>
- */
 class FileDetailPage extends DetailPage
 {
     /**
@@ -30,41 +24,22 @@ class FileDetailPage extends DetailPage
     {
         return [
             ID::make(),
-
             Text::make('Original Name', 'original_name'),
-
             Text::make('Stored Name', 'stored_name'),
-
             Text::make('Path', 'path'),
-
             Text::make('MIME Type', 'mime_type'),
-
             Text::make('Extension', 'extension'),
-
             Preview::make('Size', 'size', fn($item) => $item->formatted_size),
-
             Text::make('Hash', 'hash'),
-
             Preview::make('Download Link', 'download_token', fn($item) => $item->download_url),
-
             Textarea::make('Description', 'description'),
-
             Text::make('Uploader IP', 'uploader_ip'),
-
             Text::make('Uploader Email', 'uploader_email'),
-
             Text::make('Recipient Email', 'recipient_email'),
-
             Number::make('Download Count', 'download_count'),
-
-            Date::make('Expires At', 'expires_at')
-                ->format('d.m.Y H:i'),
-
-            Date::make('Created At', 'created_at')
-                ->format('d.m.Y H:i'),
-
-            Date::make('Updated At', 'updated_at')
-                ->format('d.m.Y H:i'),
+            Date::make('Expires At', 'expires_at')->format('d.m.Y H:i'),
+            Date::make('Created At', 'created_at')->format('d.m.Y H:i'),
+            Date::make('Updated At', 'updated_at')->format('d.m.Y H:i'),
         ];
     }
 
@@ -73,58 +48,19 @@ class FileDetailPage extends DetailPage
         $buttons = parent::buttons();
 
         $buttons->add(
-            ActionButton::make(
-                'Download File',
-                fn($file) => route('admin.file.download', $file->getKey())
-            )
+            ActionButton::make('Download File', fn($file) => route('admin.file.download', $file->getKey()))
                 ->icon('arrow-down-tray')
                 ->blank()
                 ->showInLine()
         );
 
         $buttons->add(
-            ActionButton::make(
-                'Open Public Page',
-                fn($file) => route('file.show', $file->download_token)
-            )
+            ActionButton::make('Open Public Page', fn($file) => route('file.show', $file->download_token))
                 ->icon('link')
                 ->blank()
                 ->showInLine()
         );
 
         return $buttons;
-    }
-
-    /**
-     * @return list<ComponentContract>
-     * @throws Throwable
-     */
-    protected function topLayer(): array
-    {
-        return [
-            ...parent::topLayer()
-        ];
-    }
-
-    /**
-     * @return list<ComponentContract>
-     * @throws Throwable
-     */
-    protected function mainLayer(): array
-    {
-        return [
-            ...parent::mainLayer()
-        ];
-    }
-
-    /**
-     * @return list<ComponentContract>
-     * @throws Throwable
-     */
-    protected function bottomLayer(): array
-    {
-        return [
-            ...parent::bottomLayer()
-        ];
     }
 }

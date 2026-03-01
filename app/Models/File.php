@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use App\Helpers\FormatHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class File extends Model
@@ -40,30 +44,24 @@ class File extends Model
     public static function booted(): void
     {
         static::creating(function (File $file) {
-            if (empty($file->download_token)) {
-                $file->download_token = Str::random(32);
-            }
-            if (empty($file->hash)) {
-                $file->hash = Str::random(32);
-            }
+            $file->download_token ??= Str::random(32);
+            $file->hash ??= Str::random(32);
         });
     }
 
     public function getFormattedSizeAttribute(): string
     {
-        $bytes = $this->size;
-        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
-        $i = 0;
-        while ($bytes >= 1024 && $i < count($units) - 1) {
-            $bytes /= 1024;
-            $i++;
-        }
-        return round($bytes, 2) . ' ' . $units[$i];
+        return FormatHelper::bytes($this->size);
     }
 
     public function getDownloadUrlAttribute(): string
     {
         return url('/file/' . $this->download_token);
+    }
+
+    public function downloads(): HasMany
+    {
+        return $this->hasMany(Download::class);
     }
 
     public function isExpired(): bool

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Layouts;
 
+use App\MoonShine\Resources\Download\DownloadResource;
 use App\MoonShine\Resources\File\FileResource;
 use MoonShine\ColorManager\ColorManager;
 use MoonShine\ColorManager\Palettes\PurplePalette;
@@ -34,6 +35,9 @@ final class MoonShineLayout extends AppLayout
 
             MenuItem::make(FileResource::class, 'Files')
                 ->icon('document'),
+
+            MenuItem::make(DownloadResource::class, 'Downloads')
+                ->icon('arrow-down-tray'),
         ];
     }
 

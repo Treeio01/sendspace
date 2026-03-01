@@ -1,25 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FileUploadRequest;
+use App\Models\Download;
 use App\Models\File;
+use App\Services\FileUploadService;
+use App\Helpers\FormatHelper;
+use App\Services\TelegramNotifier;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class FileController extends Controller
 {
+    public function __construct(
+        private readonly FileUploadService $uploadService,
+        private readonly TelegramNotifier $telegram,
+    ) {}
+
     public function index()
     {
         return view('index');
     }
 
-    /**
-     * Handle drag-and-drop XHR file upload.
-     * Returns a hash that the frontend uses to track the file.
-     */
     public function dragUpload(Request $request): JsonResponse
     {
         $uploadedFile = $request->file('fileField');
@@ -28,115 +35,49 @@ class FileController extends Controller
             return response()->json(['error' => 'Invalid file'], 400);
         }
 
-        $maxSize = 300 * 1024 * 1024; // 300MB
-        if ($uploadedFile->getSize() > $maxSize) {
+        if (!$this->uploadService->isValidSize($uploadedFile)) {
             return response()->json(['error' => 'File too large'], 413);
         }
 
-        $originalName = $request->header('X-File-Name', $uploadedFile->getClientOriginalName());
-        $originalName = urldecode($originalName);
-        $extension = $uploadedFile->getClientOriginalExtension() ?: pathinfo($originalName, PATHINFO_EXTENSION);
-        $storedName = Str::uuid() . '.' . $extension;
-        $hash = Str::random(32);
+        $originalName = urldecode(
+            $request->header('X-File-Name', $uploadedFile->getClientOriginalName())
+        );
 
-        $path = $uploadedFile->storeAs('uploads/' . now()->format('Y/m'), $storedName, 'local');
-
-        $file = File::create([
+        $file = $this->uploadService->store($uploadedFile, [
             'original_name' => $originalName,
-            'stored_name' => $storedName,
-            'path' => $path,
-            'mime_type' => $uploadedFile->getMimeType(),
-            'extension' => $extension,
-            'size' => $uploadedFile->getSize(),
-            'hash' => $hash,
-            'download_token' => Str::random(32),
-            'uploader_ip' => $request->ip(),
-            'uploader_email' => null,
-            'recipient_email' => null,
+            'ip' => $request->ip(),
         ]);
 
         return response()->json($file->hash);
     }
 
-    /**
-     * Handle the traditional form-based upload (multiple files).
-     * Redirects to the download page after upload.
-     */
-    public function upload(Request $request)
+    public function upload(FileUploadRequest $request)
     {
-        $isDrag = $request->has('is_drag');
-        $hashes = $request->input('hash', []);
-        $names = $request->input('name', []);
-        $descriptions = $request->input('description', []);
-        $recipientEmail = $request->input('recpemail');
-        $senderEmail = $request->input('ownemail');
+        $validated = $request->validated();
+        $hashes = $validated['hash'] ?? [];
+        $descriptions = $validated['description'] ?? [];
+        $recipientEmail = $validated['recpemail'] ?? null;
+        $senderEmail = $validated['ownemail'] ?? null;
 
-        $fileIds = [];
-
-        if ($isDrag) {
-            foreach ($hashes as $i => $hash) {
-                if (empty($hash)) continue;
-
-                $file = File::where('hash', $hash)->first();
-                if ($file) {
-                    $file->update([
-                        'description' => $descriptions[$i] ?? $descriptions[0] ?? null,
-                        'uploader_email' => $senderEmail ?: null,
-                        'recipient_email' => $recipientEmail ?: null,
-                    ]);
-                    $fileIds[] = $file->id;
-                }
-            }
-        } else {
-            $uploadedFiles = $request->file('upload_file', []);
-            $description = $descriptions[0] ?? null;
-
-            foreach ($uploadedFiles as $uploadedFile) {
-                if (!$uploadedFile || !$uploadedFile->isValid()) continue;
-
-                $maxSize = 300 * 1024 * 1024;
-                if ($uploadedFile->getSize() > $maxSize) continue;
-
-                $originalName = $uploadedFile->getClientOriginalName();
-                $extension = $uploadedFile->getClientOriginalExtension();
-                $storedName = Str::uuid() . '.' . $extension;
-
-                $path = $uploadedFile->storeAs('uploads/' . now()->format('Y/m'), $storedName, 'local');
-
-                $file = File::create([
-                    'original_name' => $originalName,
-                    'stored_name' => $storedName,
-                    'path' => $path,
-                    'mime_type' => $uploadedFile->getMimeType(),
-                    'extension' => $extension,
-                    'size' => $uploadedFile->getSize(),
-                    'description' => $description,
-                    'uploader_ip' => $request->ip(),
-                    'uploader_email' => $senderEmail ?: null,
-                    'recipient_email' => $recipientEmail ?: null,
-                ]);
-
-                $fileIds[] = $file->id;
-            }
-        }
+        $fileIds = $request->has('is_drag')
+            ? $this->finalizeDragUploads($hashes, $descriptions, $senderEmail, $recipientEmail)
+            : $this->processFormUploads($request, $descriptions, $senderEmail, $recipientEmail);
 
         if (empty($fileIds)) {
             return redirect('/')->with('error', 'No files were uploaded.');
         }
 
-        $tokens = File::whereIn('id', $fileIds)->pluck('download_token');
-        $tokenStr = $tokens->implode(',');
+        $files = File::whereIn('id', $fileIds)->get();
+        $this->notifyUpload($files, $request->ip());
 
-        return redirect('/uploaded?tokens=' . $tokenStr);
+        $tokens = $files->pluck('download_token')->implode(',');
+
+        return redirect('/uploaded?tokens=' . $tokens);
     }
 
-    /**
-     * Show the upload success / download page.
-     */
     public function uploaded(Request $request)
     {
-        $tokenStr = $request->query('tokens', '');
-        $tokens = array_filter(explode(',', $tokenStr));
+        $tokens = array_filter(explode(',', $request->query('tokens', '')));
 
         if (empty($tokens)) {
             return redirect('/');
@@ -147,44 +88,95 @@ class FileController extends Controller
         return view('uploaded', compact('files'));
     }
 
-    /**
-     * Show download page for a single file.
-     */
     public function show(string $token)
     {
         $file = File::where('download_token', $token)->firstOrFail();
-
-        if ($file->isExpired()) {
-            abort(410, 'This file has expired.');
-        }
+        abort_if($file->isExpired(), 410, 'This file has expired.');
 
         return view('download', compact('file'));
     }
 
-    /**
-     * Download the file.
-     */
-    public function download(string $token): StreamedResponse
+    public function download(string $token, Request $request): StreamedResponse
     {
         $file = File::where('download_token', $token)->firstOrFail();
-
-        if ($file->isExpired()) {
-            abort(410, 'This file has expired.');
-        }
+        abort_if($file->isExpired(), 410, 'This file has expired.');
 
         $file->increment('download_count');
+
+        Download::create([
+            'file_id' => $file->id,
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'referer' => $request->header('referer'),
+        ]);
 
         return Storage::disk('local')->download($file->path, $file->original_name);
     }
 
-    /**
-     * Upload progress endpoint (returns JSON with progress info).
-     */
-    public function progress(Request $request): JsonResponse
+    public function progress(): JsonResponse
     {
-        return response()->json([
-            'percent' => 100,
-            'status' => 'complete',
-        ]);
+        return response()->json(['percent' => 100, 'status' => 'complete']);
+    }
+
+    private function finalizeDragUploads(array $hashes, array $descriptions, ?string $senderEmail, ?string $recipientEmail): array
+    {
+        $fileIds = [];
+
+        foreach ($hashes as $i => $hash) {
+            if (empty($hash)) {
+                continue;
+            }
+
+            $file = File::where('hash', $hash)->first();
+
+            if ($file) {
+                $file->update([
+                    'description' => $descriptions[$i] ?? $descriptions[0] ?? null,
+                    'uploader_email' => $senderEmail,
+                    'recipient_email' => $recipientEmail,
+                ]);
+                $fileIds[] = $file->id;
+            }
+        }
+
+        return $fileIds;
+    }
+
+    private function notifyUpload($files, ?string $ip): void
+    {
+        $count = $files->count();
+        $totalSize = FormatHelper::bytes($files->sum('size'));
+        $names = $files->pluck('original_name')->implode(', ');
+
+        $this->telegram->send(
+            "📁 <b>Новая загрузка</b>\n"
+            . "Файлов: {$count} ({$totalSize})\n"
+            . "IP: <code>{$ip}</code>\n"
+            . "Файлы: {$names}"
+        );
+    }
+
+    private function processFormUploads(Request $request, array $descriptions, ?string $senderEmail, ?string $recipientEmail): array
+    {
+        $fileIds = [];
+        $uploadedFiles = $request->file('upload_file', []);
+        $description = $descriptions[0] ?? null;
+
+        foreach ($uploadedFiles as $uploadedFile) {
+            if (!$uploadedFile?->isValid() || !$this->uploadService->isValidSize($uploadedFile)) {
+                continue;
+            }
+
+            $file = $this->uploadService->store($uploadedFile, [
+                'ip' => $request->ip(),
+                'uploader_email' => $senderEmail,
+                'recipient_email' => $recipientEmail,
+                'description' => $description,
+            ]);
+
+            $fileIds[] = $file->id;
+        }
+
+        return $fileIds;
     }
 }
