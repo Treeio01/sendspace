@@ -1,0 +1,10 @@
+    function trn(index, def, vars) {
+        if (typeof js_trn === 'undefined' || typeof js_trn[index] === 'undefined')
+            return def;
+        def = js_trn[index];
+        while (vars && vars.length)
+            def = def.replace('%s', vars.shift());
+        return def;
+    }
+  
+var js_trn={"upload prompt singular":"Drag file here or click browse to upload","upload prompt plural":"Drag files here or click browse to upload","upload prompt versioning":"Drag here or click to upload new version","can drag more":"You can drag more files in here","file was already selected":"File was already selected","sorry, {name} is folder":"Sorry, o:name:o is a folder and cannot be uploaded","sorry, {file} too big":"Sorry, 'o:filename:o' is too big.","{file} already selected, choose other":"'o:filename:o' has already been selected.\nPlease choose another file.","maximum files added":"You have added the maximum amount of files","error adding {file}, retry":"An error occurred adding: o:name:o. Please try again.","please select upload file":"Please select a file to upload.","please enter your from email":"Please enter your email address in the From box so the recipient knows who is sending the file","enter valid confirmation email":"Please enter a valid email to receive upload confirmation","add more files":"Add more files","cancel this upload?":"Are you sure you want to cancel this upload?","btn cancel upload":"Cancel Upload","btn continue":"Continue","stop upload, hint":"Stop the upload","uploading, wait ...":"Uploading, Please Wait...","per second":"\/s","Bytes unit":"Bytes","KB unit":"KB","MB unit":"MB","GB unit":"GB","TB unit":"TB","Alert!":"Alert!","Confirmation":"Confirmation","OK":"OK","btn Cancel":"Cancel","Uploading":"Uploading"};
