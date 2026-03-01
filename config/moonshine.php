@@ -68,7 +68,7 @@ return [
 
     // Authentication and profile
     'auth' => [
-        'enabled' => false,
+        'enabled' => true,
         'guard' => 'moonshine',
         'model' => MoonshineUser::class,
         'middleware' => [
