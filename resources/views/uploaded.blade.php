@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Upload Complete — SendSpace')
+@section('meta_description', 'Загрузка завершена! Ваши файлы готовы для скачивания и отправки.')
+@section('og_title', 'Загрузка завершена — SendSpace')
 @section('body_id', 'upload_complete_page')
 
 @section('header_content')

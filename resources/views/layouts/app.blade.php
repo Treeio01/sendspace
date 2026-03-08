@@ -2,14 +2,42 @@
 <html lang="ru">
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="keywords" content="file transfer, large file, big file, free send, send file">
-  <meta name="description" content="Free file hosting. Upload and share large files instantly.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="keywords" content="file transfer, large file, big file, free send, send file, upload, share, hosting">
+  <meta name="description" content="@yield('meta_description', 'SendSpace — бесплатный файлообменник. Загружайте и делитесь большими файлами мгновенно.')">
+  <meta name="author" content="SendSpace">
+  <meta name="robots" content="index, follow">
   <title>@yield('title', 'SendSpace — Upload & Share Files')</title>
+
+  {{-- Canonical URL --}}
+  <link rel="canonical" href="@yield('canonical_url', url()->current())">
+
+  {{-- Open Graph --}}
+  <meta property="og:site_name" content="SendSpace">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:type" content="@yield('og_type', 'website')">
+  <meta property="og:title" content="@yield('og_title', 'SendSpace — Upload & Share Files')">
+  <meta property="og:description" content="@yield('meta_description', 'SendSpace — бесплатный файлообменник. Загружайте и делитесь большими файлами мгновенно.')">
+  <meta property="og:url" content="@yield('canonical_url', url()->current())">
+  <meta property="og:image" content="@yield('og_image', 'https://www.sendspace.com/img/fb_icon100.png')">
+
+  {{-- Twitter Card --}}
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="@yield('og_title', 'SendSpace — Upload & Share Files')">
+  <meta name="twitter:description" content="@yield('meta_description', 'SendSpace — бесплатный файлообменник. Загружайте и делитесь большими файлами мгновенно.')">
+  <meta name="twitter:image" content="@yield('og_image', 'https://www.sendspace.com/img/fb_icon100.png')">
+
+  {{-- Favicon --}}
+  <link rel="icon" type="image/png" href="{{ asset('assets/logo.png') }}">
+  <link rel="apple-touch-icon" href="{{ asset('assets/logo.png') }}">
+
+  {{-- Theme color --}}
+  <meta name="theme-color" content="#4DB8FB">
+  <meta name="msapplication-TileColor" content="#4DB8FB">
+
   <link type="text/css" rel="stylesheet" href="{{ asset('assets/sendspace.css') }}">
-  <link rel="shortcut icon" href="{{ asset('assets/favicon.ico') }}">
 
   <script type="text/javascript" src="{{ asset('assets/jquery-1.12.4.min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('assets/trn_javascript.html') }}"></script>

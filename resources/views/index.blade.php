@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'SendSpace — Upload & Share Files')
+@section('meta_description', 'SendSpace — бесплатный файлообменник. Загружайте файлы до 300MB и делитесь ими мгновенно. Drag & Drop загрузка.')
+@section('og_title', 'SendSpace — Upload & Share Files')
+@section('canonical_url', url('/'))
 @section('body_id', 'homepage_page')
 @section('show_illustration', true)
 

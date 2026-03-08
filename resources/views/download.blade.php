@@ -3,13 +3,12 @@
 @section('title', 'Download ' . $file->original_name . ' from SendSpace')
 @section('body_id', '_page')
 
+@section('meta_description', ($file->description ?: 'Скачать файл ' . $file->original_name . ' (' . $file->formatted_size . ') с SendSpace'))
+@section('og_title', $file->original_name . ' (' . $file->formatted_size . ') — SendSpace')
+@section('canonical_url', url('/file/' . $file->download_token))
+@section('og_type', 'article')
+
 @section('head')
-<meta property="og:title" content="{{ $file->original_name }} ({{ $file->formatted_size }}) - SendSpace">
-@if($file->description)
-<meta property="og:description" content="{{ $file->description }}">
-@endif
-<meta property="og:url" content="{{ url('/file/' . $file->download_token) }}">
-<meta property="og:type" content="website">
 @endsection
 
 @section('header_content')

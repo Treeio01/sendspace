@@ -30,9 +30,13 @@ body {
 	color: black;
 	background: white;
 	font-family: Arial, Helvetica, sans-serif;
-	min-width:1004px;
 	max-width:1920px;
 	margin:0 auto;
+}
+@media screen and (min-width: 769px) {
+	body {
+		min-width:1004px;
+	}
 }
 body.mobview {
 	min-width:0;
@@ -262,12 +266,16 @@ button::-moz-focus-inner {
 
 /* content */
 #content {
-	min-width:760px;
 	padding: 20px 20px 10px 20px;
 	margin: auto;
 	background: #fff;
 	min-height: 100px;
 	border-bottom: 1px solid #d6d6d6;
+}
+@media screen and (min-width: 769px) {
+	#content {
+		min-width:760px;
+	}
 }
 
 /* Pages */
@@ -6000,4 +6008,682 @@ ul.site-langs{
 }
 .promos{
 	margin:0 auto;
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media screen and (max-width: 768px) {
+
+	/* ---- Global resets ---- */
+	html {
+		overflow-x: hidden !important;
+	}
+	* {
+		box-sizing: border-box !important;
+	}
+	body {
+		min-width: 0 !important;
+		max-width: 100% !important;
+		width: 100% !important;
+		overflow-x: hidden;
+		font-size: 16px !important;
+	}
+	#header {
+		min-width: 0 !important;
+	}
+	.wrap {
+		margin: 0 !important;
+		padding: 0 16px !important;
+		width: 100% !important;
+		max-width: 100% !important;
+	}
+	.clear {
+		height: 0 !important;
+	}
+	.limit-width,
+	.centered {
+		width: 100% !important;
+		max-width: 100% !important;
+		padding: 0 !important;
+		margin: 0 auto !important;
+	}
+
+	/* ---- Header ---- */
+	#header {
+		height: auto !important;
+		padding: 20px 0 16px 0 !important;
+		background: linear-gradient(180deg, #7cc5f5 0%, #a1d7fc 100%) !important;
+	}
+	#header .grasp {
+		background: none !important;
+		padding: 0 !important;
+	}
+	#header .wrap,
+	#header > .grasp > .wrap {
+		margin: 0 auto !important;
+		padding: 0 16px !important;
+	}
+	#illustration {
+		display: none !important;
+	}
+	#illustration img {
+		display: none !important;
+	}
+	#header #logo {
+		float: none !important;
+		width: 100% !important;
+		text-align: center;
+		margin-top: 0 !important;
+	}
+	#header #logo img {
+		float: none !important;
+		display: inline-block;
+		width: 200px !important;
+		height: auto !important;
+	}
+	#header #logo a span#slogan {
+		font-size: 13px !important;
+		display: block;
+		text-align: center;
+		margin-top: 4px;
+		color: #1d4a65 !important;
+	}
+	#header nav {
+		max-width: 100% !important;
+		display: block;
+		text-align: center;
+		padding: 12px 0 0 0 !important;
+		white-space: normal !important;
+	}
+	#header #control li {
+		float: none !important;
+		display: inline-block;
+		padding: 6px 10px !important;
+		font-size: 15px !important;
+		border-right: 1px solid rgba(255,255,255,0.4);
+	}
+	#header #control li a {
+		font-size: 15px !important;
+		color: #fff !important;
+		text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+	}
+	#header #control li.last {
+		border-right: 0 !important;
+	}
+
+	/* Login overlay */
+	#login_frame {
+		position: fixed !important;
+		width: calc(100vw - 32px) !important;
+		left: 16px !important;
+		right: 16px !important;
+		top: 80px !important;
+		z-index: 9999;
+		border-radius: 12px;
+		padding: 20px !important;
+	}
+	#login_frame .row .label {
+		font-size: 15px !important;
+	}
+	#login_frame .input {
+		width: 100% !important;
+		font-size: 16px !important;
+		padding: 10px !important;
+	}
+	#login_frame .sbtn {
+		font-size: 16px !important;
+		padding: 10px 24px !important;
+	}
+
+	/* ---- Headline ---- */
+	#headline {
+		margin: 0 16px !important;
+		margin-top: 0 !important;
+		padding: 16px 0 !important;
+		min-height: 0 !important;
+		border-top: none !important;
+		overflow: visible !important;
+	}
+	#headline h1 {
+		font-size: 24px !important;
+		float: none !important;
+		text-align: center;
+		letter-spacing: 0 !important;
+		margin-top: 0 !important;
+	}
+	#headline .actions {
+		float: none !important;
+		text-align: center;
+		margin-top: 10px;
+	}
+	#headline .actions a {
+		font-size: 16px !important;
+	}
+
+	/* ---- Homepage ---- */
+	#homepage_page #header {
+		background: linear-gradient(180deg, #7cc5f5 0%, #a1d7fc 50%, #d4edfd 100%) !important;
+		padding-bottom: 0 !important;
+		overflow: hidden;
+	}
+	/* Hide the content section on homepage (uploading area, hidden by default) */
+	#homepage_page #content {
+		display: none !important;
+	}
+	#homepage_page #headline {
+		display: none !important;
+	}
+
+	/* ---- Upload form ---- */
+	#start {
+		width: 100% !important;
+		padding: 16px 16px 24px 16px !important;
+		margin: 0 !important;
+	}
+	#start form,
+	#start form[role="main"] {
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+	}
+
+	/* Browse / drop zone */
+	#start .browse {
+		width: 100% !important;
+		height: auto !important;
+		min-height: 0 !important;
+		background: rgba(255,255,255,0.85) !important;
+		border: 2px dashed #7fc4ef;
+		border-radius: 16px;
+		padding: 40px 20px 30px 20px !important;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 16px;
+	}
+	#start .browse .start {
+		display: none !important;
+	}
+	#start .browse .click {
+		position: static !important;
+		font-size: 18px !important;
+		font-style: italic;
+		color: #777;
+		text-align: center;
+		margin: 0;
+		line-height: 1.5;
+	}
+	#start .browse .button {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		background: none !important;
+		display: block;
+		text-align: center;
+		opacity: 1 !important;
+		margin: 0 !important;
+	}
+	#start .browse .button .file,
+	#start .browse .file {
+		width: 100% !important;
+		height: 50px;
+		opacity: 0 !important;
+		position: absolute !important;
+		top: 0; left: 0;
+	}
+	#start .browse .sbtn {
+		position: static !important;
+		display: inline-block !important;
+		padding: 16px 60px !important;
+		font-size: 18px !important;
+		right: auto !important;
+		top: auto !important;
+		border-radius: 10px;
+	}
+	#start .browse .steps {
+		position: static !important;
+		font-size: 13px !important;
+		text-align: center;
+		margin-top: 8px;
+		width: 100%;
+		color: #6b9fc4;
+	}
+	#start .browse #cloud {
+		display: none !important;
+	}
+
+	/* Selected files / form area */
+	#start .select {
+		width: 100% !important;
+		padding: 16px !important;
+		margin: 12px 0 0 0 !important;
+		border-radius: 12px;
+	}
+	#start .select table,
+	#start .select table[style] {
+		display: block !important;
+		width: 100% !important;
+		max-width: 100% !important;
+	}
+	#start .select tbody {
+		display: block !important;
+		width: 100% !important;
+	}
+	#start .select tr {
+		display: block !important;
+		width: 100% !important;
+		margin-bottom: 8px;
+	}
+	#start .select th,
+	#start .select th[style] {
+		display: block !important;
+		width: 100% !important;
+		font-size: 18px !important;
+		text-align: left;
+	}
+	#start .select td {
+		display: block !important;
+		width: 100% !important;
+		padding: 6px 0 !important;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		font-size: 15px !important;
+	}
+	#start .select .hoverable td {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	#start .select tr.updesc td {
+		white-space: normal;
+	}
+	#start .select tr.updesc label {
+		display: block;
+		margin-bottom: 6px;
+		font-size: 15px !important;
+	}
+	#start .select tr.updesc textarea {
+		width: 100% !important;
+		font-size: 16px !important;
+		padding: 10px !important;
+		border-radius: 6px;
+		border: 1px solid #ccc;
+	}
+	#start .select .clear[style] {
+		height: 0 !important;
+	}
+	#start .select #maxSize td {
+		font-size: 13px !important;
+	}
+
+	/* Send section (To / From / Upload button) */
+	.send.sendsection {
+		display: block !important;
+		margin-top: 20px;
+	}
+	.sendsection > div {
+		display: block !important;
+		width: 100% !important;
+	}
+	.sendsection > div > div,
+	.sendsection > div > div[style] {
+		width: 100% !important;
+		margin-top: 10px !important;
+	}
+	.sendsection .tag-editor {
+		width: 100% !important;
+		max-width: 100% !important;
+		font-size: 16px !important;
+	}
+	.sendsection input[type="text"],
+	.sendsection input[type="email"],
+	#ownemail {
+		width: 100% !important;
+		font-size: 16px !important;
+		padding: 10px !important;
+	}
+	.sendsection label.vam {
+		display: block;
+		margin-bottom: 6px;
+		font-weight: bold;
+		font-size: 16px !important;
+	}
+	#start .select .go {
+		width: 100% !important;
+		text-align: center;
+		margin-top: 24px;
+		float: none !important;
+	}
+	#start .select .go .submit,
+	#start .select .go input[type="submit"] {
+		width: 100% !important;
+		display: block;
+		padding: 16px 24px !important;
+		font-size: 18px !important;
+		border-radius: 10px;
+	}
+	.select .upload_terms {
+		text-align: center;
+		margin-top: 14px;
+		font-size: 13px !important;
+	}
+
+	/* ---- Content area ---- */
+	#content {
+		min-width: 0 !important;
+		width: 100% !important;
+		padding: 20px 16px !important;
+		min-height: 0 !important;
+	}
+	#content[style] {
+		min-height: 0 !important;
+		padding: 20px 16px !important;
+	}
+
+	/* ---- Download page ---- */
+	.download_with_ads {
+		padding: 0 !important;
+	}
+	.download_with_ads .info {
+		width: 100% !important;
+	}
+	.download_with_ads .info > div,
+	div[style*="min-height:320px"],
+	div[style*="min-height: 320px"] {
+		padding: 16px 0 !important;
+		min-height: 0 !important;
+		width: 100% !important;
+	}
+	.download_with_ads .info > div > div,
+	div[style*="width:520px"],
+	div[style*="width: 520px"] {
+		width: 100% !important;
+		margin: 0 !important;
+		padding: 0 !important;
+	}
+	.download_with_ads h2.bgray,
+	.download_with_ads h2.bgray b {
+		font-size: 20px !important;
+		word-break: break-word;
+		line-height: 1.3;
+	}
+	.file_description {
+		font-size: 16px !important;
+	}
+	.file_description.reverse {
+		width: 100% !important;
+		font-size: 16px !important;
+	}
+	.text {
+		font-size: 16px !important;
+	}
+	.download_page_button {
+		width: 100% !important;
+		max-width: 100% !important;
+		font-size: 20px !important;
+		padding: 18px 24px !important;
+		border-radius: 12px;
+		font-weight: bold !important;
+	}
+	.dlact_wrap {
+		text-align: center;
+	}
+
+	/* ---- Upload complete page ---- */
+	.upload_complete {
+		padding: 0 16px !important;
+		min-height: 0 !important;
+		background-image: none !important;
+	}
+	.upload_complete h2,
+	.upload_complete h2[style] {
+		width: 100% !important;
+		font-size: 18px !important;
+		line-height: 1.4;
+		word-break: break-word;
+	}
+	.upload_complete .col1,
+	#tabParent .col.col1 {
+		width: 100% !important;
+		float: none !important;
+	}
+	.upload_complete .col2 {
+		width: 100% !important;
+		float: none !important;
+		padding: 12px 0 0 0 !important;
+	}
+	.upload_complete .file_description h2,
+	.upload_complete .file_description h2 a {
+		font-size: 17px !important;
+		word-break: break-word;
+	}
+	.upload_complete .file_description h4 {
+		font-size: 15px !important;
+		margin-top: 14px;
+		font-weight: bold;
+	}
+	.upload_complete p {
+		font-size: 15px !important;
+		line-height: 1.5;
+	}
+
+	/* URL boxes */
+	.urlbox.small {
+		width: 100% !important;
+		max-width: 100% !important;
+		padding: 14px !important;
+		display: block !important;
+		overflow: hidden !important;
+		border-radius: 10px;
+	}
+	.urlbox.small .link,
+	.urlbox.small .link a,
+	.urlbox.small a.share.link {
+		font-size: 13px !important;
+		word-break: break-all !important;
+		overflow-wrap: break-word !important;
+		display: block !important;
+		overflow: hidden;
+		line-height: 1.5;
+		width: 100% !important;
+		max-width: 100% !important;
+		margin: 0 !important;
+	}
+	.urlbox.small input.link,
+	.urlbox.small input.void {
+		width: 100% !important;
+		max-width: 100% !important;
+		font-size: 12px !important;
+		overflow: hidden;
+	}
+	.copyContainer {
+		position: static !important;
+		margin-top: 8px;
+		text-align: center;
+		float: none !important;
+		width: 100% !important;
+	}
+	.copyInput,
+	.copyButton,
+	.downloadButton {
+		position: static !important;
+		display: inline-block !important;
+		float: none !important;
+		right: auto !important;
+		min-width: 0 !important;
+		width: auto !important;
+		height: auto !important;
+		padding: 12px 32px !important;
+		background: #4DB8FB !important;
+		color: #fff !important;
+		border-radius: 8px !important;
+		font-size: 15px !important;
+		cursor: pointer;
+		font-weight: bold;
+		line-height: 1.4 !important;
+		text-align: center;
+		opacity: 1 !important;
+	}
+	.copyButton.code {
+		background: #6c757d !important;
+	}
+	.share.link {
+		width: 100% !important;
+		word-break: break-all;
+		font-size: 13px !important;
+	}
+	.urlbox-desc {
+		width: 100% !important;
+		margin-left: 0 !important;
+		font-size: 14px !important;
+		color: #888;
+		line-height: 1.4;
+	}
+	.urlbox_wrapper {
+		padding-top: 8px;
+	}
+	.urlbox_toggle {
+		font-size: 15px !important;
+	}
+
+	/* ---- Progress / uploading ---- */
+	#progress_bar.dragbar.downloading {
+		padding: 20px 16px !important;
+	}
+	.dragbar .bar,
+	#progress_bar .bar {
+		width: 100% !important;
+	}
+	.dragbar .stats,
+	#progress_bar .stats {
+		display: block !important;
+	}
+	.dragbar .stats .col,
+	#progress_bar .stats .col {
+		float: none !important;
+		width: 100% !important;
+		text-align: center;
+		margin-bottom: 8px;
+		font-size: 15px !important;
+	}
+	#uploading_progress {
+		padding: 16px !important;
+	}
+	#uploading_progress iframe,
+	iframe[name="progressbar_frame"],
+	#frm_progressbar,
+	#div_progressloading {
+		width: 100% !important;
+		max-width: 100% !important;
+	}
+	#div_progressloading {
+		height: auto !important;
+		font-size: 18px !important;
+	}
+
+	/* ---- Footer ---- */
+	#footer {
+		padding: 24px 0 16px 0 !important;
+		clear: both;
+	}
+	#footer .wrap {
+		width: 100% !important;
+		padding: 0 16px !important;
+	}
+	#footer .wrap > ul,
+	#footer_menu {
+		display: flex !important;
+		flex-direction: row !important;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		border-bottom: 1px solid #e0e0e0;
+		padding-bottom: 20px !important;
+		margin-bottom: 12px !important;
+	}
+	#footer .wrap > ul > li,
+	#footer_menu > li,
+	#footer_menu > li[style*="width"] {
+		float: none !important;
+		width: 48% !important;
+		padding: 10px 0 !important;
+	}
+	#footer_menu > li:last-child {
+		width: 100% !important;
+	}
+	#footer_menu .title {
+		font-size: 15px !important;
+		font-weight: bold !important;
+		margin-bottom: 6px;
+		color: #555 !important;
+	}
+	#footer_menu li {
+		white-space: normal !important;
+		font-size: 14px !important;
+		line-height: 2;
+	}
+	#footer a {
+		font-size: 14px !important;
+	}
+	#footer #signature {
+		width: 100% !important;
+		height: auto !important;
+		text-align: center;
+		padding: 12px 0;
+		font-size: 14px !important;
+		color: #999;
+	}
+
+	/* ---- Dialog / Alert overlay ---- */
+	#ssmsg_msg {
+		padding: 16px !important;
+	}
+	#ssmsg_msg > div,
+	#ssmsg_msg .tac {
+		width: 90vw !important;
+		max-width: 90vw !important;
+		margin: 0 auto;
+	}
+	#ssmsg_msg h1 {
+		font-size: 20px !important;
+	}
+	#ssmsg_msg p {
+		font-size: 16px !important;
+	}
+	#ssmsg_msg .sbtn {
+		font-size: 16px !important;
+		padding: 10px 24px !important;
+	}
+
+	/* ---- Noscript ---- */
+	#nojs {
+		height: auto !important;
+	}
+	#nojs > div {
+		width: 100% !important;
+		padding: 16px !important;
+	}
+}
+
+/* ===== Small phones (under 400px) ===== */
+@media screen and (max-width: 400px) {
+	#header #logo img {
+		width: 170px !important;
+	}
+	#header #control li {
+		padding: 4px 6px !important;
+		font-size: 13px !important;
+	}
+	#header #control li a {
+		font-size: 13px !important;
+	}
+	#start .browse {
+		padding: 30px 12px 24px 12px !important;
+	}
+	#start .browse .click {
+		font-size: 16px !important;
+	}
+	#start .browse .sbtn {
+		padding: 14px 40px !important;
+		font-size: 17px !important;
+	}
 }
