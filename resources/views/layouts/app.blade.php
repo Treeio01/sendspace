@@ -30,6 +30,7 @@
   <meta name="twitter:image" content="@yield('og_image', 'https://www.sendspace.com/img/fb_icon100.png')">
 
   {{-- Favicon --}}
+  <link rel="icon" href="/favicon.ico">
   <link rel="icon" type="image/png" href="{{ asset('assets/logo.png') }}">
   <link rel="apple-touch-icon" href="{{ asset('assets/logo.png') }}">
 
