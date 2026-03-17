@@ -31,9 +31,8 @@
   </div>
 
   <div id="start">
-    <form role="main" method="post"
-      action="{{ route('file.upload') }}"
-      enctype="multipart/form-data" style="margin-left:-95px;margin-bottom:-10px" autocomplete="off">
+    <form role="main" method="post" action="{{ route('file.upload') }}" enctype="multipart/form-data"
+      style="margin-left:-95px;margin-bottom:-10px" autocomplete="off">
       @csrf
       <input type="text" style="display:none">
       <input type="password" style="display:none">
@@ -43,17 +42,56 @@
       <input type="hidden" name="terms" value="1" id="terms">
       <div class="browse">
         <div class="start en"></div>
-        <div class="click">Drag files here or click browse to upload</div>
-        <label for="upload_file" style="display:none">Select a file to upload</label>
-        <a class="button">
-          <input type="file" id="upload_file" name="upload_file[]" class="file" size="1" multiple="">
-          <button class="sbtn" onclick="$('#upload_file').trigger('click');return false">Browse</button>
-        </a>
-        <div class="steps">What happens next? <span>1</span> Upload your file(s) <span>2</span> Share with anyone you like!</div>
-        <div id="cloud" style="display: block;">
-          <p title="Just drag files from your system's File Manager over the upload field">&nbsp;Have you tried file<br>Drag and Drop yet?</p>
+        <div class="browse-field">
+          <div class="click">Перетащите файлы сюда или нажмите «Обзор» для загрузки</div>
+          <label for="upload_file" class="sr-only">Выберите файл для загрузки</label>
+          <button class="sbtn" aria-label="Выберите файл для загрузки"
+            onclick="document.getElementById('upload_file').click();return false"><span
+              class="desktop-only">Обзор</span><span class="mobile-only">Загрузить</span></button>
         </div>
       </div>
+      <style>
+        #start .browse .browse-field {
+          align-items: center;
+          background: #fff;
+          border: 2px solid #b8ddf3;
+          border-radius: 6px;
+          box-shadow: 0 2px 6px rgba(161, 215, 252, .35);
+          box-sizing: border-box;
+          display: inline-flex;
+          height: 63px;
+          left: 100px;
+          max-width: calc(100% - 100px);
+          min-width: 700px;
+          padding: 0 8px 0 15px;
+          position: absolute;
+          top: 125px;
+          width: auto
+        }
+
+        #start .browse .browse-field .click {
+          flex: 1 1 auto;
+          overflow: hidden;
+          padding-right: 10px;
+          position: static;
+          text-overflow: ellipsis;
+          white-space: nowrap
+        }
+
+        #start .browse .browse-field .sbtn {
+          flex: 0 0 auto;
+          position: static
+        }
+
+        @media screen and (max-width:768px) {
+          .browse-field {
+            width: 100% !important;
+            position: initial !important;
+            min-width: 0px !important;
+            max-width: 100% !important;
+          }
+        }
+      </style>
       <div class="clear" style="height: 70px"></div>
       <div class="select tal">
         <table>
@@ -63,13 +101,15 @@
             </tr>
             <tr class="hoverable">
               <td colspan="2">
-                <label><input type="hidden" name="file[]"> <a class="remove" title="Remove File"></a> <span class="filename">o:filename:o</span></label>
+                <label><input type="hidden" name="file[]"> <a class="remove" title="Remove File"></a> <span
+                    class="filename">o:filename:o</span></label>
               </td>
             </tr>
             <tr>
               <td colspan="2" style="border:0" class="tar">
                 <a class="add_more">
-                  <input title="Add more files" placeholder="Add more files" type="file" id="newUpload" name="upload_file[]" size="1" class="new_file" multiple="multiple">
+                  <input title="Add more files" placeholder="Add more files" type="file" id="newUpload"
+                    name="upload_file[]" size="1" class="new_file" multiple="multiple">
                   <label aria-label="Add more files" for="newUpload">Add more files</label>
                 </a>
               </td>
@@ -89,12 +129,16 @@
         <div class="send sendsection">
           <div>
             <div style="width:450px">
-              <label aria-label="One or several email addresses to send the download information to, comma separated" for="recpemail" class="vam">To:</label>
-              <input name="recpemail" id="recpemail" title="One or several email addresses to send the download information to, comma separated" autocomplete="off" type="hidden" class="tag-editor-hidden-src" value="">
+              <label aria-label="One or several email addresses to send the download information to, comma separated"
+                for="recpemail" class="vam">To:</label>
+              <input name="recpemail" id="recpemail"
+                title="One or several email addresses to send the download information to, comma separated"
+                autocomplete="off" type="hidden" class="tag-editor-hidden-src" value="">
             </div>
             <div style="margin-top:10px">
               <label aria-label="Your email address" for="ownemail" class="vam">From:</label>
-              <input name="ownemail" id="ownemail" type="text" style="width:200px;border-radius:2px" placeholder="sender@email.com" class="vam form_input" value="">
+              <input name="ownemail" id="ownemail" type="text" style="width:200px;border-radius:2px"
+                placeholder="sender@email.com" class="vam form_input" value="">
             </div>
           </div>
           <div class="go">
@@ -102,7 +146,8 @@
             <br><br>Next step: Share or just store your files
           </div>
         </div>
-        <div class="upload_terms tac"><em>* By uploading you confirm your files comply with our <a href="#" target="_blank" title="Terms of Service">Terms of Service</a>.</em></div>
+        <div class="upload_terms tac"><em>* By uploading you confirm your files comply with our <a href="#"
+              target="_blank" title="Terms of Service">Terms of Service</a>.</em></div>
       </div>
     </form>
   </div>
@@ -117,7 +162,7 @@
     $(function () {
       $('#js_enabled').val(1);
       $('#pwd').prop('type', 'password').val('');
-      $('#ownemail').each(function () {});
+      $('#ownemail').each(function () { });
       $('#recpemail').tagEditor({
         autocomplete: {
           delay: 0,
@@ -149,12 +194,16 @@
   <div id="content" style="min-height: 0; padding: 0px 20px">
     <div class="uploading" id="uploading_progress" style="padding: 10px 20px">
       <center>
-        <iframe name="progressbar_frame" id="frm_progressbar" style="overflow:hidden;border:0;display:none;width:800px;height:150px" src="{{ asset('assets/saved_resource.html') }}"></iframe>
+        <iframe name="progressbar_frame" id="frm_progressbar"
+          style="overflow:hidden;border:0;display:none;width:800px;height:150px"
+          src="{{ asset('assets/saved_resource.html') }}"></iframe>
         <div id="div_progressloading" style="width: 800px; font-size:22px; height: 150px;text-align:center;">
-          <br><br><img style="width:16px;height:16px" src="{{ asset('assets/loading.gif') }}" alt="loading... please wait..."><br>
+          <br><br><img style="width:16px;height:16px" src="{{ asset('assets/loading.gif') }}"
+            alt="loading... please wait..."><br>
           <br>Starting upload... Please wait...
         </div>
-        <button id="cancel_button" class="sbtn" onclick="cancelupload('/', 26)" style="margin: 5px;"><span style="position: relative; top: -2px;">Cancel Upload</span></button>
+        <button id="cancel_button" class="sbtn" onclick="cancelupload('/', 26)" style="margin: 5px;"><span
+            style="position: relative; top: -2px;">Cancel Upload</span></button>
         <br>
       </center>
     </div>

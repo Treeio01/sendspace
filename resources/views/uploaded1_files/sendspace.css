@@ -118,12 +118,12 @@ button::-moz-focus-inner {
 /* Layout */
 #slogan {white-space:nowrap}
 #header {
-	background: #a1d7fc url('../graphics/header/bg_wide.png') repeat-x left top;
+	background: #a1d7fc url('/assets/bg_wide.png') repeat-x left top;
 	height: 150px;
 }
 
 #header .grasp {
-	background: url('../graphics/header/clouds1.png') no-repeat center top;
+	background: url('/assets/clouds1.png') no-repeat top;
 	padding:0 10px;
 }
 
@@ -1344,7 +1344,6 @@ h2 span.multi {
 #illustration {
 	width: 100%;
 	height:385px;
-	background: url('../graphics/homepage/buildings_1.png') repeat-x left bottom;
 	position: absolute;
 	z-index: 1;
 	bottom: 0;
@@ -1457,17 +1456,30 @@ h2 span.multi {
 	filter: alpha(opacity=0);
 	width: 700px;
 }
-
-#start .browse .button {
-	width: 700px;
-	height: 43px;
-	background:none;
-	position: absolute;
-	top: 136px;
-	right: 79px;
-	cursor: pointer;
+.sbtn,.ss_guide button {
+    background: #0b79b1;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    box-shadow: 3px 3px 3px #ccc;
+    color: #fff;
+    cursor: pointer;
+    font-family: Trebuchet MS,Helvetica,sans-serif;
+    font-size: 14pt;
+    font-weight: 400;
+    letter-spacing: 0;
+    padding: 6px 15px;
+    text-decoration: none;
+    vertical-align: middle
 }
-
+#start .browse .button {
+    background: none;
+    cursor: pointer;
+    height: 43px;
+    position: absolute;
+    right: 79px;
+    top: 136px;
+    width: 700px
+}
 #start .select {
 	display:none;
 	background:#F4F4F4;

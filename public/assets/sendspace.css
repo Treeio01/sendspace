@@ -127,7 +127,7 @@ button::-moz-focus-inner {
 }
 
 #header .grasp {
-	background: url('/assets/clouds1.png') no-repeat center top;
+	background: url('/assets/clouds1.png') no-repeat top;
 	padding:0 10px;
 }
 
@@ -1352,7 +1352,6 @@ h2 span.multi {
 #illustration {
 	width: 100%;
 	height:385px;
-	background: url('/assets/buildings_1.png') repeat-x left bottom;
 	position: absolute;
 	z-index: 1;
 	bottom: 0;
@@ -1466,14 +1465,29 @@ h2 span.multi {
 	width: 700px;
 }
 
+.sbtn,.ss_guide button {
+    background: #0b79b1;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    box-shadow: 3px 3px 3px #ccc;
+    color: #fff;
+    cursor: pointer;
+    font-family: Trebuchet MS,Helvetica,sans-serif;
+    font-size: 14pt;
+    font-weight: 400;
+    letter-spacing: 0;
+    padding: 6px 15px;
+    text-decoration: none;
+    vertical-align: middle
+}
 #start .browse .button {
-	width: 700px;
-	height: 43px;
-	background:none;
-	position: absolute;
-	top: 136px;
-	right: 79px;
-	cursor: pointer;
+    background: none;
+    cursor: pointer;
+    height: 43px;
+    position: absolute;
+    right: 79px;
+    top: 136px;
+    width: 700px
 }
 
 #start .select {
@@ -5672,21 +5686,23 @@ ul.site-langs{
 	color:#ecf8fe;
 }
 
-.ss_guide button,
-.sbtn{
-	background:#62C9FD;
-	font-family:"Trebuchet MS", Helvetica, sans-serif;
-	color:#fff;
-	box-shadow:3px 3px 3px #ccc;
-	border-radius:3px;
-	border:1px solid transparent;
-	font-size:14pt;
-	letter-spacing:0;
-	padding:6px 15px;
-	font-weight:normal;
-	cursor:pointer;
-	vertical-align:middle;
-	text-decoration:none;
+.sbtn,.ss_guide button {
+    background: #0b79b1;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    box-shadow: 3px 3px 3px #ccc;
+    color: #fff;
+    cursor: pointer;
+    font-family: Trebuchet MS,Helvetica,sans-serif;
+    font-size: 14pt;
+    font-weight: 400;
+    letter-spacing: 0;
+    padding: 6px 15px;
+    text-decoration: none;
+    vertical-align: middle
+}
+.mobile-only {
+    display: none!important
 }
 .ss_guide button
 .sbtn:hover{

@@ -56,11 +56,7 @@
 
   <div id="header" class="tar">
     <div class="grasp">
-      @hasSection('show_illustration')
-      <div id="illustration">
-        <img src="{{ asset('assets/android_app_txt.png') }}" style="width:959px;height:382px" alt="SendSpace">
-      </div>
-      @endif
+     
 
       <div class="wrap" style="margin:auto 30px">
         <div id="logo" class="tal">
