@@ -43,10 +43,11 @@
       <div class="browse">
         <div class="start en"></div>
         <div class="browse-field">
+          <input type="file" id="upload_file" name="upload_file[]" size="1" class="file" multiple="multiple" style="display:none">
           <div class="click">Drag files here or click Browse to upload</div>
-          <label for="newUpload" class="sr-only">Select file to upload</label>
+          <label for="upload_file" class="sr-only">Select file to upload</label>
           <button class="sbtn" aria-label="Select file to upload"
-            onclick="document.getElementById('newUpload').click();return false"><span
+            onclick="document.getElementById('upload_file').click();return false"><span
               class="desktop-only">Browse</span><span class="mobile-only">Upload</span></button>
         </div>
       </div>
