@@ -43,11 +43,11 @@
       <div class="browse">
         <div class="start en"></div>
         <div class="browse-field">
-          <div class="click">Перетащите файлы сюда или нажмите «Обзор» для загрузки</div>
-          <label for="upload_file" class="sr-only">Выберите файл для загрузки</label>
-          <button class="sbtn" aria-label="Выберите файл для загрузки"
-            onclick="document.getElementById('upload_file').click();return false"><span
-              class="desktop-only">Обзор</span><span class="mobile-only">Загрузить</span></button>
+          <div class="click">Drag files here or click Browse to upload</div>
+          <label for="newUpload" class="sr-only">Select file to upload</label>
+          <button class="sbtn" aria-label="Select file to upload"
+            onclick="document.getElementById('newUpload').click();return false"><span
+              class="desktop-only">Browse</span><span class="mobile-only">Upload</span></button>
         </div>
       </div>
       <style>
